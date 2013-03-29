@@ -177,7 +177,7 @@ module.exports = function (grunt) {
 
     // Pick out the configuration options we need for the client.
     var client = knox.createClient(_(config).pick([
-      'endpoint', 'port', 'key', 'secret', 'access', 'bucket'
+      'endpoint', 'port', 'key', 'secret', 'access', 'bucket', 'secure'
     ]));
 
     // Encapsulate this logic to make it easier to gzip the file first if
@@ -186,7 +186,7 @@ module.exports = function (grunt) {
       cb = cb || function () {};
 
       // Upload the file to s3.
-      client.putFile(src, dest, headers, function (err, res) {
+      client.putFile(src, '/' + dest, headers, function (err, res) {
         // If there was an upload error or any status other than a 200, we
         // can assume something went wrong.
         if (err || res.statusCode !== 200) {
